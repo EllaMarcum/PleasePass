@@ -81,7 +81,4 @@ export default {
 </script>
 
 <style>
-.form-label {
-  background-color: darkcyan;
-}
 </style>

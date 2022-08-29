@@ -4,6 +4,8 @@ import { api } from "./AxiosService"
 
 
 
+
+
 class CommentService {
 
 
@@ -13,16 +15,21 @@ class CommentService {
     AppState.comments.push(res.data)
   }
 
+  async getCommentsByEvent(eventId) {
+    const res = await api.get(`api/events/${eventId}/comments`)
+    logger.log('getting comments', res.data)
+    AppState.comments = res.data
+  }
 
-  async deleteComment(commentId) {
-    const res = await api.delete(`api/comments/${commentId}`)
-    AppState.comments = AppState.comments.filter(c => c.id != commentId)
+  async deleteComment(commentid) {
+    const res = await api.delete(`api/comments/${commentid}`)
+    logger.log(res.data)
+    AppState.comments = AppState.comments.filter(c => c.id != id)
+    // logger.log(res.data)
   }
 }
-//   async deleteTicket(ticketId) {
-//     const res = await api.delete(`api/tickets/${ticketId}`)
-//     AppState.accounttickets = AppState.accounttickets.filter(t => t.id != ticketId)
-// }
+
+
 
 
 export const commentService = new CommentService()

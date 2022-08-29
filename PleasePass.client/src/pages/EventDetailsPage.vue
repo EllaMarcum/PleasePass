@@ -40,10 +40,17 @@
         <button class="btn btn-info">Comment</button>
       </form>
 
+      <div v-for="t in eventtickets" class="rounded col-3">
+
+        <img class="img-fluid rounded-pill " :src="t.profile.picture" :title="t.profile.name">
+      </div>
+
     </section>
-
-
-
+    <div class="row">
+      <div class="col-6">
+        <CommentCard :comment="c" v-for="c in comments" :key="c.id" />
+      </div>
+    </div>
   </section>
 
 
@@ -65,10 +72,10 @@ import { ticketService } from '../services/TicketService';
 import Pop from '../utils/Pop';
 import { logger } from "../utils/Logger"
 import { Account } from '../models/Account';
-import { applyStyles } from '@popperjs/core';
 import { ref } from 'vue';
 import { commentService } from '../services/CommentService'
 import EventCard from '../components/EventCard.vue';
+import CommentCard from '../components/CommentCard.vue';
 
 
 
@@ -85,11 +92,33 @@ export default {
         Pop.error(error);
       }
     }
+
+    async function getComments() {
+      try {
+        await commentService.getCommentsByEvent(route.params.eventId)
+      } catch (error) {
+        logger.log('comments', error)
+        Pop.error(error)
+      }
+    }
+
+    async function getTicketsByEvent() {
+      try {
+        await ticketService.getTicketByEventId(route.params.eventId)
+      } catch (error) {
+        logger.log('[get ticket from events]')
+      }
+    }
+
     onMounted(() => {
       getEventsById();
+      getComments();
+      getTicketsByEvent()
     });
     return {
       editable,
+      eventtickets: computed(() => AppState.eventtickets),
+      comments: computed(() => AppState.comments),
       isCreator: computed(() => {
         if (AppState.account.id == AppState.activeEvent.creatorId) {
           return true;
@@ -98,27 +127,42 @@ export default {
           return false;
         }
       }),
-      // isSoldOut: computed(() => {
-      //     if (activeEvent.capacity == 0)
-      //         return true 
-      //     else return false
-      // }),
       isCanceled: computed(() => {
         if (AppState.activeEvent.isCanceled == true) {
           return true;
         }
       }),
+      hasTicket: computed(() => {
+        if (AppState.eventtickets.find(c => c.accountId == AppState.account.id)) {
+          return true
+        }
+        return false
+      }),
       event: computed(() => AppState.activeEvent),
+
+
       async handleTicket() {
         try {
-          await ticketService.createTicket(route.params);
-          Pop.toast("got tickets");
+          if (AppState.activeEvent.capacity > 0) {
+            let newTicket = {
+              eventId: AppState.activeEvent.id,
+              accountId: AppState.account.id
+            }
+            logger.log('got tickets', newTicket)
+            await ticketService.createTicket(newTicket)
+          }
+          else {
+            Pop.error('No Tickets Available')
+          }
+        } catch (error) {
+          logger.log('[get tickets]', error)
+          Pop.error(error)
         }
-        catch (error) {
-          Pop.error(error);
-          logger.log(error);
-        }
+
+
       },
+
+
       async handleSubmit() {
         try {
           await eventsService.deleteEvent(route.params.eventId);
@@ -150,11 +194,10 @@ export default {
         //   } catch (error) {
         //     Pop.error(error)
         //   }
-      }
-
+      },
     };
   },
-  components: { EventCard }
+  components: { EventCard, CommentCard }
 }
 
 

@@ -1,8 +1,9 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
+import { eventsService } from "../services/EventService";
 import BaseController from "../utils/BaseController";
 import { ticketService } from "../services/TicketService";
 import { commentService } from "../services/CommentService";
-import { eventsService } from "../services/TowerEventService"
+
 
 
 
@@ -13,8 +14,8 @@ export class TowerEventController extends BaseController {
     this.router
       .get('', this.getAll)
       .get('/:id', this.getById)
-      .get('/:id/tickets', this.getEventTickets)
       .get('/:id/comments', this.getEventComments)
+      .get('/:id/tickets', this.getEventTickets)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.create)
       .put('/:id', this.editEvent)
@@ -89,4 +90,4 @@ export class TowerEventController extends BaseController {
       next(error)
     }
   }
-} 
+}

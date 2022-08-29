@@ -5,18 +5,12 @@
     <p>{{  account.email  }}</p>
   </div>
 
-  <!-- <div class="container">
-    <div class="row">
-      <div class="mx-auto my-3 col-md-10" v-for="p in projects" :key="p.id">
-        <ProjectCard :project="p" />
-      </div>
-    </div>
-  </div> -->
-  <div v-for="t in tickets" :key="t.id" class="bg-primary col-3 my-3 rounded d-flex">
+
+  <div v-for="t in tickets" :key="t.id" class="bg-primary col-3 my-3  d-flex">
 
     {{  t.event?.name  }}
     <img class="m-3 rounded" :src="t.event?.coverImg" />
-    <button class="justify-self-end btn btn-info" @click="deleteTicket(t.id)">delete</button>
+    <button class="justify-self-end btn btn-info" @click="deleteTicket(t.id)">delete ticket</button>
   </div>
 </template>
 
@@ -54,9 +48,9 @@ export default {
       tickets: computed(() => AppState.accounttickets),
 
 
-      async deleteTicket(ticketId) {
+      async deleteTicket(id) {
         try {
-          await ticketService.deleteTicket(ticketId)
+          await ticketService.deleteTicket(id)
         } catch (error) {
           Pop.error(error)
         }

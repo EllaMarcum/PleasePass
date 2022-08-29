@@ -1,3 +1,4 @@
+
 import { Forbidden } from "@bcwdev/auth0provider/lib/Errors"
 import { dbContext } from "../db/DbContext"
 
@@ -32,16 +33,17 @@ class TicketService {
 
 
   async create(newTicket) {
+    const towerEvent = await dbContext.TowerEvents.findById(newTicket.eventId)
     const ticket = await dbContext.Tickets.create(newTicket)
+
+
     await ticket.populate('event')
     await ticket.populate('profile', 'name picture')
-    const towerEvent = await dbContext.TowerEvents.findById(ticket.eventId)
+
     // @ts-ignore
     towerEvent.capacity -= 1
     // @ts-ignore
     await towerEvent.save()
-
-
     return ticket
   }
   async getEventTickets(eventId) {

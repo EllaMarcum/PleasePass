@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <div class="row bg-warning py-1 px-5 text-dark">
+    <div class="row bg-warning py-1 px-5 text-light">
       <div class="col-12">
         <h2>Events</h2>
       </div>
@@ -8,18 +8,18 @@
       <div class="col-12">
         filter <i class="mdi mdi-filter"></i>
       </div>
-      <section class=" d-flex justify-content-evenly row">
-        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = ''">All</div>
-        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'concert'">Concerts</div>
-        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'convention'">Conventions
+      <section class=" d-flex justify-content-evenly row ">
+        <div class="col-2 btn btn-outline-dark  bg-primary" @click="filterTerm = ''">All</div>
+        <div class="col-2 btn btn-outline-dark  bg-primary" @click="filterTerm = 'concert'">Concerts</div>
+        <div class="col-2 btn btn-outline-dark  bg-primary" @click="filterTerm = 'convention'">Conventions
         </div>
-        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'sport'">Sports</div>
-        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'digital'">Digital</div>
+        <div class="col-2 btn btn-outline-dark  bg-primary" @click="filterTerm = 'sport'">Sports</div>
+        <div class="col-2 btn btn-outline-dark  bg-primary" @click="filterTerm = 'digital'">Digital</div>
       </section>
       <EventForm />
     </div>
     <div class="row">
-      <EventCard class="col-2 my-3" v-for="e in events" :key="e.id" :event="e" />
+      <EventCard class="col-2 my-2" v-for="e in events" :key="e.id" :event="e" />
     </div>
   </section>
 </template>
@@ -56,4 +56,3 @@ export default {
   components: { EventForm }
 }
 </script>
-
