@@ -1,36 +1,59 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <section class="container">
+    <div class="row bg-warning py-1 px-5 text-dark">
+      <div class="col-12">
+        <h2>Events</h2>
+      </div>
+
+      <div class="col-12">
+        filter <i class="mdi mdi-filter"></i>
+      </div>
+      <section class=" d-flex justify-content-evenly row">
+        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = ''">All</div>
+        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'concert'">Concerts</div>
+        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'convention'">Conventions
+        </div>
+        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'sport'">Sports</div>
+        <div class="col-2 btn btn-outline-light  bg-primary" @click="filterTerm = 'digital'">Digital</div>
+      </section>
+      <EventForm />
     </div>
-  </div>
+    <div class="row">
+      <EventCard class="col-2 my-3" v-for="e in events" :key="e.id" :event="e" />
+    </div>
+  </section>
 </template>
 
 <script>
+import { onMounted, ref } from "vue";
+import { eventsService } from "../services/EventService";
+import { logger } from "../utils/Logger";
+import EventCard from "../components/EventCard.vue";
+import { computed } from "@vue/reactivity";
+import { AppState } from "../AppState";
+import EventForm from "../components/EventForm.vue";
 export default {
-  name: 'Home'
+  setup() {
+    const filterTerm = ref("");
+    async function getEvents() {
+      try {
+        await eventsService.getEvents();
+      }
+      catch (error) {
+        logger.log(error);
+      }
+    }
+    onMounted(() => {
+      getEvents();
+    });
+    return {
+      filterTerm,
+      // albums: computed(() => AppState.albums.filter(a => filterTerm.value ? a.category == filterTerm.value : true)),
+      events: computed(() => AppState.events.filter(e => filterTerm.value ? e.type == filterTerm.value : true)),
+      // events: computed(()=> AppState.events)
+    };
+  },
+  components: { EventForm }
 }
 </script>
 
-<style scoped lang="scss">
-.home{
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-  .home-card{
-    width: 50vw;
-    > img{
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
-}
-</style>

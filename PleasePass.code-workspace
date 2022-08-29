@@ -1,13 +1,12 @@
-
 {
   "folders": [
     {
-      "path": "PleasePass.client",
-      "name": "client"
+      "name": "server",
+      "path": "PleasePass"
     },
     {
-      "path": "PleasePass",
-      "name": "server"
+      "name": "client",
+      "path": "PleasePass.client"
     }
   ],
   "settings": {
