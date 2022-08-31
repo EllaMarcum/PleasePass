@@ -4,13 +4,11 @@ import { api } from "./AxiosService"
 
 
 
-
-
 class CommentService {
 
 
   async createComment(newComment) {
-    const res = await api.post('api/comments', newComment)
+    const res = await api.post(`api/comments`, newComment)
     logger.log('[created comment]', res.data)
     AppState.comments.push(res.data)
   }
@@ -21,8 +19,8 @@ class CommentService {
     AppState.comments = res.data
   }
 
-  async deleteComment(commentid) {
-    const res = await api.delete(`api/comments/${commentid}`)
+  async deleteComment(id) {
+    const res = await api.delete(`api/comments/${id}`)
     logger.log(res.data)
     AppState.comments = AppState.comments.filter(c => c.id != id)
     // logger.log(res.data)

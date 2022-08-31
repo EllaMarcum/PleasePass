@@ -1,6 +1,6 @@
 <template>
   <router-link :to="{ name: 'EventDetails', params: { eventId: event.id } }">
-    <div class="card bg-primary selectable">
+    <div class="card  selectable">
 
       <h3>{{  event.name  }}</h3>
       <img class="img-fluid" :src="event.coverImg" alt="">

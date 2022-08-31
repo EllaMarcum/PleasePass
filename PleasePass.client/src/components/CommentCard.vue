@@ -1,14 +1,14 @@
-
 <template>
-  <div class="">
-    <img class="img-fluid" :src="comment.creator.picture" alt="">
-    <div class="bg-warning">
-      <h5>{{  comment.creator.name  }}</h5>
-      <b>{{  comment.body  }}</b>
-      <button class="btn mdi mdi-delete-forever" @click="deleteComment(c.id)"></button>
+  <section class="container">
+    <div class="row">
+      <div class="card elevation-2 col-10 mb-3 justify-space-around">
+        <img class="pfp rounded img-fluid m-1" :src="comment.creator.picture" alt="" />
+        <h5>{{  comment.creator.name  }}</h5>
+        <h6>{{  comment.body  }}</h6>
+        <button class="btn mdi mdi-delete-forever" @click="deleteComment(commentId)"></button>
+      </div>
     </div>
-
-  </div>
+  </section>
 </template>
 
 
@@ -22,20 +22,25 @@ export default {
   props: { comment: { type: Object, required: true } },
   setup() {
     return {
+
+
       async deleteComment(commentId) {
-        // try {
-        //     let commentToRemove = AppState.comments.find(c => c.id == AppState.account.id)
-        //     await commentService.deleteComment(commentToRemove.id)
-        // } catch (error) {
-        //     Pop.error(error)
-        // }
         try {
           await commentService.deleteComment(commentId)
         } catch (error) {
           Pop.error(error)
         }
       }
+
+
     }
   }
-}
+};
 </script>
+
+<style scoped lang="scss">
+.pfp {
+  max-block-size: 3vh;
+  max-inline-size: 3vh;
+}
+</style>

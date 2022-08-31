@@ -1,5 +1,7 @@
 import { Forbidden } from "@bcwdev/auth0provider/lib/Errors"
+
 import { dbContext } from "../db/DbContext"
+
 
 
 
@@ -8,43 +10,23 @@ import { dbContext } from "../db/DbContext"
 class CommentService {
   async deleteComment(id, userId) {
     const comment = await dbContext.Comments.findById(id)
+
     // @ts-ignore
     if (comment.creatorId.toString() != userId) {
       throw new Forbidden("'You can't delete that")
     }
     // @ts-ignore
-    const towerEvent = await dbContext.
-      TowerEvents.findById(comment.eventId)
+    const towerEvent = await dbContext.TowerEvents.findById(comment.eventId)
     // @ts-ignore
     await towerEvent.save()
     // @ts-ignore
     await comment.delete()
     return comment
   }
-  async getEventComments(eventId) {
+  async getCommentsByEvent(eventId) {
     const comments = await dbContext.Comments.find({ eventId }).populate('creator', 'name picture')
 
     return comments
-
-
-    //   async remove(collabId, userId) {
-    //             const collab = await dbContext.Collaborators.findById(collabId)
-    //             if (!collab) {
-    //                 throw new BadRequest('no collab at that id')
-    //             }
-    //             if (collab.accountId.toString() != userId) {
-    //                 throw new Forbidden('You can not remove that')
-    //             }
-    //             await collab.remove()
-    //             return 'collab ended'
-    //         }
-
-
-    //  async getEventTickets(eventId) {
-    //     const tickets = await dbContext.Tickets.find({ eventId }).populate('profile', 'name picture')
-    //         .populate('event')
-    //     return tickets
-    // }
   }
   async create(body) {
     const comment = await dbContext.Comments.create(body)

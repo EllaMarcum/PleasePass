@@ -1,43 +1,51 @@
 <template>
   <section class="container-fluid">
     <div class=" row">
-      <h4 v-if="event.isCanceled" class=" col-2 rounded m-2 bg-black text-warning">Canceled</h4>
+      <h4 v-if="event.isCanceled" class=" col-2 rounded m-2 bg-dark text-primary">Canceled</h4>
       <h4 v-if="event.capacity == 0" class="text-warning">SOLD OUT</h4>
       <h3 class="col-12">| {{  event?.name  }}</h3>
-      <div class="col-3">
-        <img class="img-fluid" :src="event?.coverImg" alt="">
+      <div class="">
+        <img class="img-fluid rounded-pill" :src="event?.coverImg" alt="">
       </div>
-      <div class="col-9 bg-secondary">
-        <span><b>Info</b></span> : {{  event.description  }}
+      <div class="col-10 bg-dark rounded d-flex justify-content-center">
+        <span><b>Event Description</b></span> : {{  event.description  }}
       </div>
-      <div>
-        <h6>Created By | {{  event.creator?.name  }}</h6>
+      <div class="col-3 py-3">
+        <h6>Created By {{  event.creator?.name  }}</h6>
       </div>
-      <div>
-        Location | {{  event.location  }}
+      <div class="col-3 py-3">
+        Location {{  event.location  }}
       </div>
-      <div v-if="!event.isCanceled">
-        Available Tickets | {{  event.capacity  }}
+      <div v-if="!event.isCanceled" class="col-3">
+        Available Tickets {{  event.capacity  }}
       </div>
-      <div>
-        date | {{  new Date(event.startDate)  }}
+      <div class="col-3 py-3">
+        Date | {{  new Date(event.startDate)  }}
       </div>
-      <div>
-        {{  event.type  }}
+      <div class="col-3 py-3">
+        <h3> TYPE |{{  event.type  }}</h3>
       </div>
     </div>
     <h1 v-if="event.capacity == 0">Sold Out</h1>
-    <button v-if="isCreator" class="btn btn-danger" @click="handleSubmit">Cancel Event</button>
+    <button v-if="isCreator" class="btn btn-danger rounded-pill" @click="handleSubmit">Cancel Event</button>
 
-    <button v-if="!hasTicket" class="btn btn-success" @click="handleTicket">Get Tickets</button>
+    <button v-if="!hasTicket" class="btn btn-warning  rounded-pill" @click="handleTicket">Get Tickets</button>
+
+    <div v-for="t in tickets" :key="t.id" class="bg-primary col-3 my-3 rounded d-flex">
+      {{  t.event?.name  }}
+      <img class="m-3 rounded" :src="t.event?.coverImg" />
+      <button class="justify-self-end btn btn-info " @click="deleteTicket(t.id)">delete</button>
+    </div>
+
+
     <section class="row">
       <form @submit.prevent="handleComment">
-        <h3>Leave Comment</h3>
+        <h3>Commentary Suggested</h3>
         <div>
           <label for=""></label>
           <input class="form-label" type="text" name="" id="" v-model="editable.body">
         </div>
-        <button class="btn btn-info">Comment</button>
+        <button class="btn btn-warning rounded-pill">Comment</button>
       </form>
 
       <div v-for="t in eventtickets" class="rounded col-3">
@@ -49,6 +57,7 @@
     <div class="row">
       <div class="col-6">
         <CommentCard :comment="c" v-for="c in comments" :key="c.id" />
+
       </div>
     </div>
   </section>
@@ -92,6 +101,16 @@ export default {
         Pop.error(error);
       }
     }
+
+    // async function removeTicket(ticketId) {
+    //   try {
+    //     await ticketService.removeTicket(ticketId)
+    //   } catch (error) {
+    //     logger.log('[removing ticket]', error)
+
+    //     Pop.error(error)
+    //   }
+    // }
 
     async function getComments() {
       try {
@@ -183,20 +202,10 @@ export default {
           Pop.error(error);
           logger.error(error);
         }
-
-        // async handleSubmit() {
-        //   try {
-        //     editable.value.albumId = route.params.albumId
-        //     await picturesService.create(editable.value)
-        //     // NOTE next line clears form
-        //     editable.value = {}
-        //     Pop.success('picture added')
-        //   } catch (error) {
-        //     Pop.error(error)
-        //   }
       },
     };
   },
+
   components: { EventCard, CommentCard }
 }
 

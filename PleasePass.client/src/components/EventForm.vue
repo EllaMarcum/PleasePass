@@ -2,41 +2,45 @@
   <section class="" id="">
     <div>
       <form @submit.prevent="handleSubmit" class="">
-        <div>Create Event</div>
-        <div>
-          <label for="" class="form-label">Name</label>
-          <input type="text" v-model="editable.name" class="form-control" name="title" id="title">
-        </div>
-        <div>
-          <label for="" class="form-label">Cover Image</label>
-          <input type="url" v-model="editable.coverImg" class="form-control" name="title" id="title">
-        </div>
-        <div>
-          <label for="" class="form-label">Type</label>
-          <select v-model="editable.type" name="" id="" class="form-control">
-            <option value="concert">Concerts</option>
-            <option value="convention">Conventions</option>
-            <option value="sport">Sports</option>
-            <option value="digital">Digital</option>
-          </select>
-        </div>
-        <div>
-          <label for="" class="mt-2 form-label">Location</label>
-          <input type="text" class="mx-2" v-model="editable.location">
-        </div>
-        <div>
-          <label for="" class="form-label">Capacity</label>
-          <input type="number" class="mx-2" v-model="editable.capacity">
-        </div>
-        <div>
-          <label for="" class="form-label">Start Date</label>
-          <input type="date" class="mx-2" v-model="editable.startDate">
-        </div>
-        <div>
-          <label for="" class="form-label">Description</label>
-          <input type="text" class="mx-2" v-model="editable.description">
-        </div>
-        <button class="btn btn-primary">Submit</button>
+        <div></div>
+        <section class="container">
+          <div class="row">
+            <div class="col-2">
+              <label for="" class="form-label">Name</label>
+              <input type="text" v-model="editable.name" class="form-control" name="title" id="title">
+            </div>
+            <div class="col-2">
+              <label for="" class="form-label">Cover Image</label>
+              <input type="url" v-model="editable.coverImg" class="form-control" name="title" id="title">
+            </div>
+            <div class="col-2">
+              <label for="" class="form-label">Type</label>
+              <select v-model="editable.type" name="" id="" class="form-control">
+                <option value="concert">Concerts</option>
+                <option value="convention">Conventions</option>
+                <option value="sport">Sports</option>
+                <option value="digital">Digital</option>
+              </select>
+            </div>
+            <div class="col-2">
+              <label for="" class="mt-2 form-label">Location</label>
+              <input type="text" class="mx-2" v-model="editable.location">
+            </div>
+            <div class="col-2">
+              <label for="" class="form-label">Capacity</label>
+              <input type="number" class="mx-2" v-model="editable.capacity">
+            </div>
+            <div class="col-2">
+              <label for="" class="form-label">Start Date</label>
+              <input type="date" class="mx-2" v-model="editable.startDate">
+            </div>
+            <div class="col-2">
+              <label for="" class="form-label">Description</label>
+              <input type="text" class="mx-2" v-model="editable.description">
+            </div>
+            <button class="btn btn-warning">Submit</button>
+          </div>
+        </section>
       </form>
     </div>
   </section>
@@ -57,7 +61,7 @@
 <script>
 
 import { ref } from 'vue';
-import { eventsService } from "../services/EventService";
+
 import { logger } from '../utils/Logger.js';
 import Pop from '../utils/Pop.js';
 

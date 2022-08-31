@@ -14,7 +14,7 @@ class TicketService {
 
   async getTicketByEventId(eventId) {
     const res = await api.get(`api/events/${eventId}/tickets`)
-    AppState.events = res.data
+    AppState.eventtickets = res.data
   }
 
 
@@ -27,15 +27,6 @@ class TicketService {
     const res = await api.delete(`api/tickets/${ticketId}`)
     AppState.accounttickets = AppState.accounttickets.filter(t => t.id != ticketId)
   }
-
-
-
-
-  // async create(newCollab) {
-  //     const res = await api.post('api/collaborators', newCollab)
-  //     logger.log('CREATE COLLAB', res.data)
-  //     AppState.collaboratorProfiles.push(res.data)
-  // }
 }
 
 

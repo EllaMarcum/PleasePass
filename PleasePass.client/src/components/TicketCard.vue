@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="bg-dark p-2 rounded"></div>
   <img class="img-fluid" :src="ticket.profile?.picture" alt="">
   <h4 class="text-center">{{  ticket.event.title  }}</h4>
@@ -23,4 +23,4 @@ export default {
     }
   }
 }
-</script> -->
+</script>

@@ -1,16 +1,23 @@
 <template>
   <div class="about text-center">
-    <h1>Welcome {{  account.name  }}</h1>
+    <h4>Welcome {{  account.name  }}</h4>
     <img class="rounded" :src="account.picture" alt="" />
     <p>{{  account.email  }}</p>
-  </div>
 
 
-  <div v-for="t in tickets" :key="t.id" class="bg-primary col-3 my-3  d-flex">
+    <!-- <div class="container">
+      <div class="row">
+        <div class="mx-auto my-3 col-md-10" v-for="p in projects" :key="p.id">
+          <ProjectCard :project="p" />
+        </div>
+      </div>
+    </div> -->
+    <div v-for="t in tickets" :key="t.id" class="bg-primary col-3 my-3 rounded d-flex">
 
-    {{  t.event?.name  }}
-    <img class="m-3 rounded" :src="t.event?.coverImg" />
-    <button class="justify-self-end btn btn-info" @click="deleteTicket(t.id)">delete ticket</button>
+      {{  t.event?.name  }}
+      <img class="m-3 rounded" :src="t.event?.coverImg" />
+      <button class=" btn btn-info" @click="deleteTicket(t.id)">delete</button>
+    </div>
   </div>
 </template>
 
@@ -40,6 +47,7 @@ export default {
 
     onMounted(() => {
       getTicketsById()
+
     }
 
     )

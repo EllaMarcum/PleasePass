@@ -1,4 +1,3 @@
-
 import BaseController from "../utils/BaseController";
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import { commentService } from "../services/CommentService";
@@ -7,7 +6,8 @@ import { commentService } from "../services/CommentService";
 
 export class CommentsController extends BaseController {
   constructor() {
-    super('api/comments')
+    super
+      ('api/comments')
     this.router
 
       .use(Auth0Provider.getAuthorizedUserInfo)
@@ -22,14 +22,7 @@ export class CommentsController extends BaseController {
       next(error)
     }
   }
-  // async remove(req, res, next) {
-  //     try {
-  //         const message = await collabsService.remove(req.params.id, req.userInfo.id)
-  //         return res.send(message)
-  //     } catch (error) {
-  //         next(error)
-  //     }
-  // }
+
   async create(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
